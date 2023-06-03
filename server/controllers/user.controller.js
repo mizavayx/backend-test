@@ -1,20 +1,27 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 
-//@DESC Get All Users
-//@ROUTE /api/v1/users
-//@METHOD GET
+/**
+ * @desc Get all users
+ * @route  /api/v1/users/
+ * @method GET
+ * @access public
+ */
 exports.getAll = asyncHandler(async (req, res) => {
   const users = await User.find({});
-  res.status(201).json({ success: true, count: users.length, data: users });
+  res
+    .status(201)
+    .json({ success: true, count: users.length, data: users });
 });
 
-//@DESC Get Single User
-//@ROUTE /api/v1/users/:id
-//@METHOD GET
+/**
+ * @desc Get single user
+ * @route /api/v1/users/:id
+ * @method GET
+ * @access public
+ */
 exports.getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-
   if (!user) {
     res.status(404);
     throw new Error("User not found");
@@ -23,18 +30,25 @@ exports.getUser = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: user });
 });
 
-//@DESC Add User
-//@ROUTE /api/v1/users
-//@METHOD POST
+/**
+ * @desc Add User
+ * @route /api/v1/users
+ * @method POST
+ * @access public
+ */
 exports.addUser = asyncHandler(async (req, res) => {
   const user = await User.create(req.body);
 
   res.status(201).json({ success: true, data: user });
 });
 
-//@DESC Update User
-//@ROUTE /api/v1/users/:id
-//@METHOD PUT
+/**
+ * @desc Update User
+ * @route /api/v1/users/:id
+ * @method PUT
+ * @access private
+ * @requires sameUserId
+ */
 exports.updateUser = asyncHandler(async (req, res) => {
   let user = await User.findById(req.params.id);
 
@@ -56,9 +70,13 @@ exports.updateUser = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, data: user });
 });
 
-//@DESC Delete User
-//@ROUTE /api/v1/users/:id
-//@METHOD DELETE
+/**
+ * @desc Delete User
+ * @route /api/v1/users/:id
+ * @method DELETE
+ * @access private
+ * @requires sameUserId
+ */
 exports.deleteUser = asyncHandler(async (req, res) => {
   let user = await User.findById(req.params.id);
 
@@ -73,6 +91,5 @@ exports.deleteUser = asyncHandler(async (req, res) => {
   }
 
   await user.delete();
-
   res.status(201).json({ success: true, data: {} });
 });

@@ -12,15 +12,20 @@ const UserSchema = mongoose.Schema(
       required: [true, "Please add a password"],
     },
 
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    isAdmin: Boolean,
 
-    owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: false,
-      ref: "UserDetail",
+    fullname: String,
+
+    gender: String,
+
+    dob: Date,
+
+    address: String,
+
+    email: {
+      type: String,
+      match: [/.+\@.+\..+/, "Please add correct email type"],
+      unique: true,
     },
   },
   { timestamps: true }

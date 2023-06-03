@@ -11,8 +11,28 @@ app.use(express.json());
 app.use(cors());
 connectDB();
 
-// Routers
+// Routes
+const UserRoutes = require("./routes/user.route");
+const StudentRoutes = require("./routes/student.route");
+const ClassRoutes = require("./routes/class.route");
+const SubjectRoutes = require("./routes/subject.route");
+const ScoreRoutes = require("./routes/score.route");
 
+// Setup routes
+// User route
+app.use("/api/v1/users", UserRoutes);
+
+// Student route
+app.use("/api/v1/students", StudentRoutes);
+
+// Class route
+app.use("/api/v1/classes", ClassRoutes);
+
+// Subject route
+app.use("/api/v1/subjects", SubjectRoutes);
+
+// Score route
+app.use("/api/v1/scores", ScoreRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
