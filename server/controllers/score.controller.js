@@ -1,11 +1,12 @@
-const asyncHandler = require("express-async-handler");
-const Score = require("../models/score.model");
+const asyncHandler = require('express-async-handler');
+const Score = require('../models/score.model');
 
 /**
  * @desc Get all scores
  * @route  /api/v1/scores/
  * @method GET
- * @access public
+ * @access private
+ * @requires TOKEN
  */
 exports.getAll = asyncHandler(async (req, res) => {
   const scores = await Score.find({});
@@ -18,13 +19,14 @@ exports.getAll = asyncHandler(async (req, res) => {
  * @desc Get single score
  * @route /api/v1/scores/:id
  * @method GET
- * @access public
+ * @access private
+ * @requires TOKEN
  */
 exports.getScore = asyncHandler(async (req, res) => {
   const score = await Score.findById(req.params.id);
   if (!score) {
     res.status(404);
-    throw new Error("Score not found");
+    throw new Error('Score not found');
   }
 
   res.status(201).json({ success: true, data: score });
@@ -34,7 +36,8 @@ exports.getScore = asyncHandler(async (req, res) => {
  * @desc Add Score
  * @route /api/v1/scores
  * @method POST
- * @access public
+ * @access private
+ * @requires TOKEN
  */
 exports.addScore = asyncHandler(async (req, res) => {
   const score = await Score.create(req.body);
@@ -47,19 +50,13 @@ exports.addScore = asyncHandler(async (req, res) => {
  * @route /api/v1/scores/:id
  * @method PUT
  * @access private
- * @requires sameScoreId
+ * @requires TOKEN
  */
 exports.updateScore = asyncHandler(async (req, res) => {
   let score = await Score.findById(req.params.id);
-
   if (!score) {
     res.status(404);
-    throw new Error("Score not found");
-  }
-
-  if (req.score.id !== score._id.toString()) {
-    res.status(401);
-    throw new Error("Score not authorized");
+    throw new Error('Score not found');
   }
 
   score = await Score.findByIdAndUpdate(req.params.id, req.body, {
@@ -75,21 +72,16 @@ exports.updateScore = asyncHandler(async (req, res) => {
  * @route /api/v1/scores/:id
  * @method DELETE
  * @access private
- * @requires sameScoreId
+ * @requires TOKEN
  */
 exports.deleteScore = asyncHandler(async (req, res) => {
   let score = await Score.findById(req.params.id);
-
   if (!score) {
     res.status(404);
-    throw new Error("Score not found");
-  }
-
-  if (req.score.id !== score._id.toString()) {
-    res.status(401);
-    throw new Error("Score not authorized");
+    throw new Error('Score not found');
   }
 
   await score.delete();
+
   res.status(201).json({ success: true, data: {} });
 });

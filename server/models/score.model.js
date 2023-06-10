@@ -1,10 +1,10 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const scoreSchema = mongoose.Schema({
   student: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "Student",
+    ref: 'Student',
   },
 
   schoolYear: {
@@ -22,7 +22,7 @@ const scoreSchema = mongoose.Schema({
       subject: {
         type: mongoose.Schema.Types.String,
         required: true,
-        ref: "Subject",
+        ref: 'Subject',
       },
       _15mins: [
         {
@@ -48,6 +48,6 @@ const scoreSchema = mongoose.Schema({
   ],
 });
 
-const Score = mongoose.model("Score", scoreSchema);
+const Score = mongoose.model('Score', scoreSchema);
 
 module.exports = Score;

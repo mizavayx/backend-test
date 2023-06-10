@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const subjectSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
   },
 
   qualifyingScore: {
@@ -13,6 +14,6 @@ const subjectSchema = mongoose.Schema({
   },
 });
 
-const Subject = mongoose.model("Subject", subjectSchema);
+const Subject = mongoose.model('Subject', subjectSchema);
 
 module.exports = Subject;
