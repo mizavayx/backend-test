@@ -114,7 +114,7 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  if (req.user.id !== user._id.toString()) {
+  if (req.user.id !== user._id.toString() && !req.user.isAdmin) {
     res.status(401);
     throw new Error('User not authorized');
   }
