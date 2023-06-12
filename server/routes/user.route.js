@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
-const UserController = require("../controllers/user.controller");
+const { protectMiddleware } = require('../middlewares/protectRoutes');
+const UserController = require('../controllers/user.controller');
 
 router
-  .route("/")
+  .route('/')
   .get(UserController.getAll)
-  .post(UserController.addUser);
+  .post(protectMiddleware, UserController.addUser);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(UserController.getUser)
-  .put(UserController.updateUser)
-  .delete(UserController.deleteUser);
+  .put(protectMiddleware, UserController.updateUser)
+  .delete(protectMiddleware, UserController.deleteUser);
 
 module.exports = router;

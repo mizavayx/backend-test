@@ -38,11 +38,12 @@ exports.getSubject = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.addSubject = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   const subject = await Subject.create(req.body);
 
@@ -79,11 +80,12 @@ exports.updateSubject = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.deleteSubject = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   let subject = await Subject.findById(req.params.id);
   if (!subject) {

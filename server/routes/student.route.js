@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
-const StudentController = require("../controllers/student.controller");
-
-router
-  .route("/")
-  .get(StudentController.getAll)
-  .post(StudentController.addStudent);
+const { protectMiddleware } = require('../middlewares/protectRoutes');
+const StudentController = require('../controllers/student.controller');
 
 router
-  .route("/:id")
-  .get(StudentController.getStudent)
-  .put(StudentController.updateStudent)
-  .delete(StudentController.deleteStudent);
+  .route('/')
+  .get(protectMiddleware, StudentController.getAll)
+  .post(protectMiddleware, StudentController.addStudent);
+
+router
+  .route('/:id')
+  .get(protectMiddleware, StudentController.getStudent)
+  .put(protectMiddleware, StudentController.updateStudent)
+  .delete(protectMiddleware, StudentController.deleteStudent);
 
 module.exports = router;

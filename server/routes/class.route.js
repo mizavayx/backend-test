@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
-const ClassController = require("../controllers/class.controller");
+const { protectMiddleware } = require('../middlewares/protectRoutes');
+const ClassController = require('../controllers/class.controller');
 
 router
-  .route("/")
+  .route('/')
   .get(ClassController.getAll)
-  .post(ClassController.addClass);
+  .post(protectMiddleware, ClassController.addClass);
 
 router
-  .route("/:id")
+  .route('/:id')
   .get(ClassController.getClass)
-  .put(ClassController.updateClass)
-  .delete(ClassController.deleteClass);
+  .put(protectMiddleware, ClassController.updateClass)
+  .delete(protectMiddleware, ClassController.deleteClass);
 
 module.exports = router;

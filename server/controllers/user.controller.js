@@ -39,11 +39,12 @@ exports.getUser = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.addUser = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   const user = await User.create(req.body);
 
@@ -64,17 +65,16 @@ exports.updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  // TODO: make user TOKEN protect
-  // if (req.user.id !== user._id.toString()) {
-  //   res.status(401);
-  //   throw new Error('User not authorized');
-  // }
-  // if (req.body.isAdmin && !req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error(
-  //     'User not allowed to change account type to Administrator'
-  //   );
-  // }
+  if (req.user.id !== user._id.toString()) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+  if (req.body.isAdmin && !req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not allowed to change account type to Administrator'
+    );
+  }
 
   user = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -98,11 +98,10 @@ exports.deleteUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  // TODO: make user TOKEN protect
-  // if (req.user.id !== user._id.toString()) {
-  //   res.status(401);
-  //   throw new Error('User not authorized');
-  // }
+  if (req.user.id !== user._id.toString()) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
 
   await user.delete();
 

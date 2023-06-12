@@ -48,11 +48,12 @@ exports.getStudent = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.addStudent = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   const student = await Student.create(req.body);
 
@@ -89,11 +90,12 @@ exports.updateStudent = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.deleteStudent = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   let student = await Student.findById(req.params.id);
   if (!student) {

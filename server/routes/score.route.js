@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
-const ScoreController = require("../controllers/score.controller");
-
-router
-  .route("/")
-  .get(ScoreController.getAll)
-  .post(ScoreController.addScore);
+const { protectMiddleware } = require('../middlewares/protectRoutes');
+const ScoreController = require('../controllers/score.controller');
 
 router
-  .route("/:id")
-  .get(ScoreController.getScore)
-  .put(ScoreController.updateScore)
-  .delete(ScoreController.deleteScore);
+  .route('/')
+  .get(protectMiddleware, ScoreController.getAll)
+  .post(protectMiddleware, ScoreController.addScore);
+
+router
+  .route('/:id')
+  .get(protectMiddleware, ScoreController.getScore)
+  .put(protectMiddleware, ScoreController.updateScore)
+  .delete(protectMiddleware, ScoreController.deleteScore);
 
 module.exports = router;

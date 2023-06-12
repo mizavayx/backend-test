@@ -38,11 +38,12 @@ exports.getClass = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.addClass = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   const _class = await Class.create(req.body);
 
@@ -79,11 +80,12 @@ exports.updateClass = asyncHandler(async (req, res) => {
  * @requires TOKEN(Admin)
  */
 exports.deleteClass = asyncHandler(async (req, res) => {
-  // TODO: make user TOKEN protect
-  // if (!req.user.isAdmin) {
-  //   res.status(401);
-  //   throw new Error('User not authorized, administrator permission required');
-  // }
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
 
   let _class = await Class.findById(req.params.id);
   if (!_class) {
