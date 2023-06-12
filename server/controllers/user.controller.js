@@ -5,7 +5,8 @@ const User = require('../models/user.model');
  * @desc Get all users
  * @route  /api/v1/users/
  * @method GET
- * @access public
+ * @access private
+ * @requires TOKEN
  */
 exports.getAll = asyncHandler(async (req, res) => {
   const users = await User.find({});
@@ -19,7 +20,8 @@ exports.getAll = asyncHandler(async (req, res) => {
  * @desc Get single user
  * @route /api/v1/users/:id
  * @method GET
- * @access public
+ * @access private
+ * @requires TOKEN
  */
 exports.getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
