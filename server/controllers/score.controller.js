@@ -23,7 +23,7 @@ exports.getAll = asyncHandler(async (req, res) => {
  * @requires TOKEN
  */
 exports.getScore = asyncHandler(async (req, res) => {
-  const score = await Score.find({student: req.params.id});
+  const score = await Score.find({ student: req.params.id });
   if (!score) {
     res.status(404);
     throw new Error('Score not found');
@@ -53,7 +53,7 @@ exports.addScore = asyncHandler(async (req, res) => {
  * @requires TOKEN
  */
 exports.updateScore = asyncHandler(async (req, res) => {
-  let score = await Score.findById(req.params.id);
+  let score = await Score.find({ student: req.params.id });
   if (!score) {
     res.status(404);
     throw new Error('Score not found');
@@ -75,7 +75,7 @@ exports.updateScore = asyncHandler(async (req, res) => {
  * @requires TOKEN
  */
 exports.deleteScore = asyncHandler(async (req, res) => {
-  let score = await Score.findById(req.params.id);
+  let score = await Score.find({ student: req.params.id });
   if (!score) {
     res.status(404);
     throw new Error('Score not found');
