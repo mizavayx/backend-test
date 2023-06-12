@@ -5,12 +5,12 @@ const UserController = require('../controllers/user.controller');
 
 router
   .route('/')
-  .get(UserController.getAll)
+  .get(protectMiddleware, UserController.getAll)
   .post(protectMiddleware, UserController.addUser);
 
 router
   .route('/:id')
-  .get(UserController.getUser)
+  .get(protectMiddileware, UserController.getUser)
   .put(protectMiddleware, UserController.updateUser)
   .delete(protectMiddleware, UserController.deleteUser);
 
