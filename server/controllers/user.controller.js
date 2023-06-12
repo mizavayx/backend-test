@@ -6,9 +6,16 @@ const User = require('../models/user.model');
  * @route  /api/v1/users/
  * @method GET
  * @access private
- * @requires TOKEN
+ * @requires TOKEN(Admin)
  */
 exports.getAll = asyncHandler(async (req, res) => {
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
+
   const users = await User.find({});
 
   res
@@ -21,9 +28,16 @@ exports.getAll = asyncHandler(async (req, res) => {
  * @route /api/v1/users/:id
  * @method GET
  * @access private
- * @requires TOKEN
+ * @requires TOKEN(Admin)
  */
 exports.getUser = asyncHandler(async (req, res) => {
+  if (!req.user.isAdmin) {
+    res.status(401);
+    throw new Error(
+      'User not authorized, administrator permission required'
+    );
+  }
+
   const user = await User.findById(req.params.id);
   if (!user) {
     res.status(404);
@@ -67,7 +81,7 @@ exports.updateUser = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 
-  if (req.user.id !== user._id.toString()) {
+  if (req.user.id !== user._id.toString() && !req.user.isAdmin) {
     res.status(401);
     throw new Error('User not authorized');
   }
