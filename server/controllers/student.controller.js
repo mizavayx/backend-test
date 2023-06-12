@@ -3,7 +3,7 @@ const Student = require('../models/student.model');
 
 /**
  * @desc Get all student
- * @route  /api/v1/student/
+ * @route  /api/v1/students/
  * @method GET
  * @access private
  * @requires TOKEN
